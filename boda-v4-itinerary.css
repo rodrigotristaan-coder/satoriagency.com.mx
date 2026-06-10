@@ -1,0 +1,184 @@
+/* =========================================================
+   v4 — Itinerary redesign (clean vertical cards)
+   ========================================================= */
+
+/* ============ Itinerary — vertical card list ============ */
+.itin-list {
+  list-style: none;
+  margin: 60px auto 0;
+  padding: 0;
+  position: relative;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Vertical connecting line removed per design request */
+.itin-list::before { display: none; }
+
+/* Reset old grid styles */
+.itin-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 4vw, 22px);
+  padding: clamp(14px, 3.4vw, 18px) clamp(4px, 1vw, 8px);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+  grid-template-columns: none;
+  z-index: 1;
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1), border-color 0.4s, background 0.4s;
+}
+.bg-cream .itin-item {
+  background: transparent;
+  border: 0;
+}
+
+/* Reset old left/right tweaks completely */
+.itin-item.left,
+.itin-item.right { grid-template-columns: none; }
+.itin-item .col-l,
+.itin-item .col-r { display: none !important; }
+.itin-item .dot { display: none; }
+
+.itin-item.left .content,
+.itin-item.right .content {
+  display: block;
+  text-align: left;
+  grid-column: auto;
+  padding: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Icon container */
+.itin-item .icon {
+  flex: 0 0 auto;
+  width: clamp(64px, 16vw, 78px);
+  height: clamp(64px, 16vw, 78px);
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--pearl-2, #FDFBF3) 0%, var(--cream, #F2EAD3) 100%);
+  border: 1px solid var(--gold, #B68B4C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow:
+    0 6px 14px rgba(14, 31, 61, 0.30),
+    inset 0 0 0 3px rgba(182, 139, 76, 0.15);
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
+}
+.bg-cream .itin-item .icon {
+  box-shadow:
+    0 6px 14px rgba(14, 31, 61, 0.14),
+    inset 0 0 0 3px rgba(182, 139, 76, 0.15);
+}
+.itin-item .icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Hover lift */
+.itin-item:hover {
+  transform: translateY(-3px);
+}
+.bg-cream .itin-item:hover {
+  background: transparent;
+}
+.itin-item:hover .icon {
+  transform: rotate(-4deg) scale(1.05);
+}
+
+/* Content typography */
+.itin-item .content {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+.itin-item .time {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 5.6vw, 28px);
+  line-height: 1;
+  color: var(--gold, #B68B4C);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
+}
+.itin-item .label {
+  font-family: "Cormorant SC", serif;
+  font-size: clamp(11px, 2.8vw, 13px);
+  letter-spacing: 0.32em;
+  color: inherit;
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.itin-item .sub {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(13px, 3.2vw, 15px);
+  opacity: 0.72;
+  margin-top: 4px;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+/* ============ Animated entrance (per-card scroll-triggered) ============ */
+.itin-item.reveal {
+  opacity: 0;
+  transform: translateX(-30px) scale(0.96);
+  transition:
+    opacity 1.1s cubic-bezier(.2, .7, .25, 1),
+    transform 1.1s cubic-bezier(.2, .7, .25, 1);
+  /* Each item triggers independently when it crosses viewport middle — no stagger needed,
+     each card animates with its own scroll position */
+}
+.itin-item.reveal.in {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Subtle pop animation on the icon when card is visible */
+.itin-item.reveal.in .icon {
+  animation: itinIconPop 0.8s cubic-bezier(.4, 1.6, .5, 1) 0.3s both;
+}
+@keyframes itinIconPop {
+  0%   { transform: scale(0.5) rotate(-12deg); }
+  60%  { transform: scale(1.14) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* Small floating sparkle next to icon when visible */
+.itin-item .icon::after {
+  content: "";
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold-soft, #C9A668);
+  box-shadow: 0 0 8px var(--gold, #B68B4C);
+  opacity: 0;
+  transform: scale(0);
+}
+.itin-item.reveal.in .icon::after {
+  animation: sparkleAppear 1.4s ease 0.6s forwards;
+}
+@keyframes sparkleAppear {
+  0%   { opacity: 0; transform: scale(0); }
+  40%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itin-item.reveal.in .icon,
+  .itin-item.reveal.in .icon::after { animation: none; }
+}

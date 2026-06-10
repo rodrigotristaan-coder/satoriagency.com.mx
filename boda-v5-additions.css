@@ -1,0 +1,833 @@
+/* =========================================================
+   Boda v5 — Review edits, talavera ornaments + background,
+   single-venue photo carousel, Instagram section, larger type
+   Loaded LAST so it overrides earlier sheets.
+   ========================================================= */
+
+/* ============ Talavera ornaments (replace roses) ============ */
+.bloom.talavera-orn img { width: 100%; height: auto; display: block; }
+.talavera-orn {
+  filter: drop-shadow(0 8px 18px rgba(14, 31, 61, 0.16));
+  mix-blend-mode: normal !important;
+}
+/* keep talavera flat & vivid even over the dark ink sections */
+.bg-ink .bloom.talavera-orn {
+  mix-blend-mode: normal !important;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35)) !important;
+  --bloom-op: 0.9;
+}
+
+/* ============ Talavera divider — una sola franja entre el quote y Padres ============ */
+/* Franja horizontal de ~2cm, a todo lo ancho, con motivo pequeño (sin cortarse)
+   y translúcida al 30%. */
+.tal-divider {
+  height: 4.5cm;
+  width: 100%;
+  background-image: url("fotos/talavera/band-navy-seamless.png");
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: auto 100%;   /* mosaico cuadrado completo, sin recorte vertical */
+  opacity: 0.3;
+  pointer-events: none;
+  /* Difuminado suave en el inicio y fin de la franja para fundirse con las
+     secciones de arriba y abajo (sin borde duro). */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+/* Neutraliza el antiguo fondo/franja por sección (ya no se usa) */
+.section.tal-fullbg { background-image: none; padding-bottom: var(--section-y, 96px); }
+.section.tal-fullbg::after { content: none; display: none; }
+
+/* ============ C1 · Countdown nav full width ============ */
+.cd-nav {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  transform: translateY(-100%) !important;
+  border-radius: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+  justify-content: center;
+  gap: clamp(16px, 6vw, 48px) !important;
+  padding: 12px clamp(14px, 4vw, 28px) !important;
+}
+.cd-nav.show { transform: translateY(0) !important; }
+.cd-nav .cd-num { font-size: clamp(20px, 5vw, 26px) !important; color: #FFFFFF !important; }
+.cd-nav .cd-lbl { font-size: clamp(9px, 2.2vw, 11px) !important; color: #FFFFFF !important; opacity: 0.92 !important; }
+.cd-nav .cd-sep { height: 32px !important; }
+body.has-cd-nav .page { /* small breathing room handled by hero scroll */ }
+
+/* ============ C6 · Hero kicker bigger ============ */
+.hero-kicker {
+  font-size: clamp(40px, 9vw, 58px) !important;
+  margin-bottom: 14px !important;
+}
+/* ============ C27 / R2-1 · Monogram C & V — horizontal, one line ============ */
+#heroNames {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.04em;
+  letter-spacing: 0;
+  line-height: 1;
+}
+#heroNames .hero-name { letter-spacing: 0; line-height: 1; }
+#heroNames .amp {
+  display: inline-block !important;
+  margin: 0 0.04em !important;
+  line-height: 1 !important;
+  font-size: clamp(56px, 15vw, 124px) !important;
+  align-self: center;
+}
+/* Lower the hero block ~1cm so the fixed nav never covers "Nuestra boda" */
+.hero-content { padding-bottom: clamp(40px, 10vw, 74px) !important; }
+.hero-kicker { margin-bottom: clamp(16px, 4vw, 24px) !important; }
+
+/* ============ C8 · Hero venue bigger ============ */
+.hero-venue {
+  font-size: clamp(20px, 5vw, 30px) !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* ============ C2 / C3 · Venue eyebrow + region bigger ============ */
+.venue-hero .eyebrow {
+  font-size: clamp(46px, 11vw, 68px) !important;
+}
+.venue-region {
+  font-size: clamp(22px, 5.4vw, 32px) !important;
+  letter-spacing: 0.18em !important;
+  margin-top: 6px !important;
+}
+
+/* ============ C34 · Single-venue photo carousel ============ */
+.venue-carousel {
+  max-width: 620px;
+  margin: 30px auto 0;
+}
+.venue-carousel .vc-viewport {
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow:
+    0 18px 40px -14px rgba(14, 31, 61, 0.40),
+    0 6px 16px rgba(14, 31, 61, 0.12);
+  background: #1a2438;
+}
+.venue-carousel .vc-track {
+  display: flex;
+  will-change: transform;
+}
+.venue-carousel .vc-slide {
+  flex: 0 0 100%;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+.venue-carousel .vc-slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.venue-carousel .vc-dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+.venue-carousel .vc-dots .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(14, 31, 61, 0.22);
+  transition: transform .4s ease, background .4s ease;
+}
+.venue-carousel .vc-dots .dot.on {
+  background: var(--gold, #B68B4C);
+  transform: scale(1.4);
+}
+.venue-cta-wrap {
+  text-align: center;
+  margin-top: 30px;
+}
+.venue-cta-wrap .venue-cta-note {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(18px, 4.4vw, 23px);
+  color: var(--ink-soft, #2C3E5F);
+  opacity: 0.82;
+  margin: 0 0 14px;
+}
+/* Two CTA buttons under the carousel */
+.venue-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 14px 28px;
+  font-family: "Cormorant SC", serif;
+  font-size: clamp(13px, 3.3vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid var(--ink, #0E1F3D);
+  color: var(--ink, #0E1F3D);
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .28s ease, color .28s ease, transform .28s ease, box-shadow .28s ease;
+}
+.btn-cta:hover {
+  background: var(--ink, #0E1F3D);
+  color: var(--pearl, #FBF8EE);
+  transform: translateY(-2px);
+}
+.btn-cta.gold {
+  border-color: var(--gold, #B68B4C);
+  background: var(--gold, #B68B4C);
+  color: #FFFFFF;
+  box-shadow: 0 8px 18px -6px rgba(182, 139, 76, 0.55);
+  animation: btnHeartbeat 2.4s ease-in-out infinite;
+}
+@keyframes btnHeartbeat {
+  0%, 100%   { transform: scale(1); }
+  10%        { transform: scale(1.07); }
+  20%        { transform: scale(1); }
+  30%        { transform: scale(1.07); }
+  42%        { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-cta.gold { animation: none; }
+}
+.btn-cta.gold:hover {
+  background: var(--gold-deep, #8B6731);
+  border-color: var(--gold-deep, #8B6731);
+  color: #FFFFFF;
+}
+
+/* ============ C4 · Padres y padrinos — bigger titles ============ */
+.section.bg-cream .eyebrow.eyebrow-lg {
+  font-size: clamp(48px, 12vw, 72px) !important;
+}
+.thanks-letter {
+  font-size: clamp(19px, 4.6vw, 24px) !important;
+  line-height: 1.7 !important;
+}
+.padre-card .role,
+.padrino-item .role {
+  font-size: clamp(13px, 3.2vw, 16px) !important;
+  letter-spacing: 0.3em !important;
+}
+.padre-card .name {
+  font-size: clamp(26px, 6vw, 34px) !important;
+}
+.padrino-item .name {
+  font-size: clamp(20px, 4.8vw, 25px) !important;
+}
+h3.display.h-3 {
+  font-size: clamp(44px, 11vw, 64px) !important;
+}
+/* Padrino designation tag under each parents card */
+.padre-card .padrino-tag {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(15px, 3.6vw, 18px);
+  color: var(--gold-deep, #8B6731);
+  margin-top: 10px;
+  position: relative;
+  display: inline-block;
+}
+.padre-card .padrino-tag::before { content: "("; }
+.padre-card .padrino-tag::after  { content: ")"; }
+
+/* ============ C5 · Flip card backs — fill the card ============ */
+.gallery-mosaic > div .flip-back { padding: clamp(14px, 4vw, 28px) !important; }
+.gallery-mosaic > div .flip-back .quote {
+  font-size: clamp(18px, 4.2vw, 26px) !important;
+  line-height: 1.45 !important;
+}
+.gallery-mosaic > div .flip-back .author {
+  font-size: clamp(28px, 6vw, 40px) !important;
+}
+.gallery-mosaic > div.tiny .flip-back .quote {
+  font-size: clamp(15px, 3.6vw, 21px) !important;
+}
+
+/* ============ Flip robusto — crossfade que NUNCA se traba ============ */
+/* Reemplazamos el giro 3D (rotateY + backface-visibility) por un cross-fade
+   suave con escala. Las transiciones de opacidad son simétricas e
+   interrumpibles: si tocas la tarjeta a media animación nunca queda con las
+   dos caras ocultas ni "atorada". */
+.gallery-mosaic > div { perspective: none !important; }
+.gallery-mosaic > div .flip-card {
+  transform: none !important;
+  transform-style: flat !important;
+  transition: none !important;
+}
+.gallery-mosaic > div.flipped .flip-card { transform: none !important; }
+
+.gallery-mosaic > div .flip-front,
+.gallery-mosaic > div .flip-back {
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(.2,.7,.25,1) !important;
+  will-change: opacity, transform;
+}
+.gallery-mosaic > div .flip-front { transform: none !important; opacity: 1; }
+.gallery-mosaic > div .flip-back  { transform: scale(1.05) !important; opacity: 0; }
+.gallery-mosaic > div.flipped .flip-front { transform: scale(0.97) !important; opacity: 0; }
+.gallery-mosaic > div.flipped .flip-back  { transform: scale(1) !important; opacity: 1; }
+
+/* ============ C9 · Itinerary bigger ============ */
+.itin-item .time { font-size: clamp(26px, 6vw, 34px) !important; }
+.itin-item .label {
+  font-size: clamp(16px, 4vw, 20px) !important;
+  letter-spacing: 0.16em !important;
+}
+.itin-item .sub {
+  font-size: clamp(15px, 3.6vw, 19px) !important;
+  font-weight: 700 !important;
+}
+.itin-wrap .eyebrow { font-size: clamp(44px, 10.5vw, 64px) !important; }
+.itin-wrap .display.h-2 { font-size: clamp(56px, 14vw, 88px) !important; }
+.itin-wrap .lede { font-size: clamp(18px, 4.4vw, 23px) !important; }
+
+/* ============ C10 · Dress code bigger ============ */
+.dc .eyebrow { font-size: clamp(44px, 10.5vw, 64px) !important; }
+.dc-block .role {
+  font-size: clamp(15px, 3.8vw, 19px) !important;
+  letter-spacing: 0.24em !important;
+}
+.dc-block .body,
+.dc-block .body span { font-size: clamp(18px, 4.4vw, 23px) !important; }
+.dc-block .body em { font-size: clamp(16px, 3.8vw, 20px) !important; }
+.dc-reserved .label { font-size: clamp(17px, 4vw, 22px) !important; }
+
+/* ============ C11–15 · Hospedajes bigger ============ */
+.section.bg-cream .eyebrow { font-size: clamp(44px, 10.5vw, 64px); }
+.hosp-postcard .hp-script { font-size: clamp(34px, 8vw, 46px) !important; }
+.hosp-postcard .hp-name { font-size: clamp(23px, 5.4vw, 30px) !important; }
+.hosp-postcard .hp-name em { font-size: 0.9em !important; }
+.hosp-postcard .hp-note { font-size: clamp(16px, 3.8vw, 20px) !important; }
+.hp-rating .score { font-size: clamp(19px, 4.4vw, 23px) !important; }
+.hp-rating .src { font-size: clamp(13px, 3vw, 15px) !important; }
+.hp-rating .stars { font-size: clamp(15px, 3.4vw, 18px) !important; }
+
+/* ============ C12 / C18 · Lede paragraphs bigger ============ */
+.lede {
+  font-size: clamp(22px, 5.2vw, 28px) !important;
+  line-height: 1.6 !important;
+}
+.verse .lede {
+  font-size: clamp(24px, 6vw, 32px) !important;
+  line-height: 1.7 !important;
+}
+
+/* ============ C16 · Momentos eyebrow bigger ============ */
+.section.bg-pearl .eyebrow { font-size: clamp(44px, 10.5vw, 64px); }
+
+/* ============ C17–20 · Gifts bigger + Palacio logo ============ */
+.gifts .eyebrow { font-size: clamp(44px, 10.5vw, 64px) !important; }
+.gift-card .store { font-size: clamp(34px, 8vw, 44px) !important; }
+.gift-card .ttl { font-size: clamp(22px, 5.2vw, 28px) !important; }
+.gift-card .desc { font-size: clamp(16px, 3.9vw, 20px) !important; line-height: 1.6 !important; }
+/* C21 · Palacio de Hierro logo — wider box, light on dark */
+.gift-card .gift-art.gift-logo {
+  width: clamp(190px, 46vw, 250px) !important;
+  height: auto !important;
+  aspect-ratio: auto;
+  margin-bottom: 20px !important;
+  filter: brightness(0) invert(1) drop-shadow(0 6px 14px rgba(0,0,0,0.3)) !important;
+}
+.gift-card .gift-art.gift-logo img {
+  width: 100%; height: auto; max-height: none;
+}
+
+/* ============ C22–24 · RSVP bigger ============ */
+.rsvp .eyebrow { font-size: clamp(44px, 10.5vw, 64px) !important; }
+.boleto-card .lbl { font-size: clamp(14px, 3.4vw, 18px) !important; letter-spacing: 0.26em !important; }
+.boleto-card .of { font-size: clamp(18px, 4.4vw, 23px) !important; }
+.rsvp-form label {
+  font-size: clamp(16px, 3.8vw, 20px) !important;
+}
+.rsvp-form input,
+.rsvp-form textarea,
+.pill-radio label span {
+  font-size: clamp(17px, 4vw, 21px) !important;
+}
+.guest-row input { font-size: clamp(16px, 3.8vw, 19px) !important; }
+.btn.solid { font-size: clamp(13px, 3.2vw, 15px) !important; letter-spacing: 0.24em !important; }
+
+/* ============ C25 / C26 · Footer bigger ============ */
+.foot .date {
+  font-size: clamp(15px, 3.6vw, 19px) !important;
+  letter-spacing: 0.22em !important;
+}
+.foot .sig {
+  font-size: clamp(20px, 4.8vw, 26px) !important;
+}
+.foot .sig-name {
+  font-size: clamp(40px, 10vw, 58px) !important;
+}
+
+/* ============ C35 · Instagram section ============ */
+.insta-section { position: relative; }
+.insta-handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin: 30px auto 0;
+  padding: 16px 30px;
+  border: 1px solid var(--gold, #B68B4C);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink, #0E1F3D);
+  background: rgba(255,255,255,0.4);
+  transition: background .3s ease, color .3s ease, transform .3s ease;
+}
+.insta-handle:hover {
+  background: var(--ink, #0E1F3D);
+  color: var(--pearl, #FBF8EE);
+  transform: translateY(-3px);
+}
+.insta-handle .insta-ico {
+  display: inline-flex;
+  color: var(--gold-deep, #8B6731);
+  transition: color .3s ease;
+}
+.insta-handle:hover .insta-ico { color: var(--gold-soft, #C9A668); }
+.insta-handle .insta-ico svg { width: clamp(30px, 7vw, 38px); height: clamp(30px, 7vw, 38px); }
+.insta-handle .insta-user {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(24px, 5.6vw, 32px);
+  font-weight: 500;
+}
+.insta-tag {
+  font-family: "Cormorant SC", serif;
+  font-size: clamp(12px, 3vw, 15px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #8B6731);
+  margin-top: 22px;
+}
+
+/* ============ R3-2 · Títulos vs subtítulos ============ */
+/* TÍTULOS (main headings) — NOT bold. Azul on light, blanco on dark. */
+.display,
+h2.display, h3.display,
+.venue-hero .place {
+  font-weight: 400 !important;
+  color: var(--ink, #0E1F3D) !important;     /* azul on pearl/white */
+}
+.bg-ink .display,
+.bg-ink h2.display,
+.bg-ink h3.display {
+  color: #FFFFFF !important;                  /* blanco on blue/ink */
+}
+/* Hero monogram reads white on the photo */
+#heroNames { color: #FFFFFF !important; }
+#heroNames .amp { color: var(--gold-soft, #C9A668) !important; }
+
+/* Título específico en dorado ("¡Nos Casamos!") */
+.display.title-gold,
+.bg-cream .display.title-gold,
+.bg-pearl .display.title-gold {
+  color: var(--gold-deep, #8B6731) !important;
+}
+
+/* Galería — que las fotos aparezcan más rápido (reveal acelerado, sin escalonado) */
+.gallery-wrap .gallery-mosaic .reveal {
+  transition: opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1) !important;
+  transition-delay: 0s !important;
+}
+
+/* ============ Padres y padrinos — letra más grande (legible para todos) ============ */
+[data-screen-label="04 Padres y Padrinos"] .thanks-letter {
+  font-size: clamp(22px, 5.4vw, 30px) !important;
+  line-height: 1.75 !important;
+  font-weight: 400 !important;
+}
+[data-screen-label="04 Padres y Padrinos"] .padre-card .role,
+[data-screen-label="04 Padres y Padrinos"] .padrino-item .role {
+  font-size: clamp(16px, 4vw, 21px) !important;
+}
+[data-screen-label="04 Padres y Padrinos"] .padre-card .name {
+  font-size: clamp(30px, 7vw, 42px) !important;
+  line-height: 1.3 !important;
+}
+[data-screen-label="04 Padres y Padrinos"] .padrino-item .name {
+  font-size: clamp(24px, 5.8vw, 32px) !important;
+  line-height: 1.35 !important;
+}
+[data-screen-label="04 Padres y Padrinos"] .padre-card .padrino-tag {
+  font-size: clamp(18px, 4.4vw, 23px) !important;
+}
+[data-screen-label="04 Padres y Padrinos"] h3.display.h-3 {
+  font-size: clamp(48px, 12vw, 70px) !important;
+}
+
+/* SUBTÍTULOS (overlines, script sub-labels, role tags) — Bold + gold */
+.eyebrow,
+.eyebrow-lg,
+.hero-kicker,
+.venue-region,
+.vp-script,
+.hosp-postcard .hp-script,
+.gift-card .store,
+.padre-card .role,
+.padre-card .padrino-tag,
+.padrino-item .role,
+.itin-item .label,
+.dc-block .role {
+  font-weight: 700 !important;
+  color: var(--gold-deep, #8B6731) !important;   /* gold on light */
+}
+.bg-ink .eyebrow,
+.bg-ink .eyebrow-lg,
+.bg-ink .hero-kicker,
+.bg-ink .vp-script,
+.bg-ink .gift-card .store,
+.bg-ink .itin-item .label,
+.bg-ink .dc-block .role {
+  color: var(--gold-soft, #C9A668) !important;    /* gold on dark */
+}
+/* Hero kicker on the dark photo → warm gold */
+.hero-kicker { color: var(--gold-soft, #C9A668) !important; }
+
+/* ============ R3-RSVP · Centrar formulario + subtítulos en bold dorado ============ */
+#rsvp .field label,
+#rsvp .pill-radio label span {
+  font-weight: 700 !important;
+  color: var(--gold-deep, #8B6731) !important;
+}
+#rsvp .boleto-card .lbl,
+#rsvp .boleto-card .of {
+  font-weight: 700 !important;
+  color: var(--gold-soft, #C9A668) !important;
+}
+/* Monograma C&V dentro del boleto */
+.boleto-card .boleto-mono {
+  font-family: var(--f-romance, "Tangerine", cursive);
+  font-size: clamp(72px, 18vw, 110px);
+  line-height: 1;
+  color: #FFFFFF;
+  margin: 4px 0 2px;
+}
+.boleto-card .boleto-mono .amp {
+  font-style: italic;
+  margin: 0 0.04em;
+  color: var(--gold-soft, #C9A668);
+}
+/* Center the RSVP form content on the landing */
+.rsvp-form { text-align: center !important; }
+.rsvp-form .field label { text-align: center; }
+.rsvp-form .field input[type="text"],
+.rsvp-form .field input[type="email"],
+.rsvp-form .field textarea { text-align: center; }
+.rsvp-form .guest-row input { text-align: center; }
+/* "Agregar invitado" — prominent, en azul */
+#guestsAdd.guests-add {
+  background: var(--ink, #0E1F3D);
+  color: #FFFFFF;
+  border: 1px solid var(--ink, #0E1F3D);
+  border-style: solid;
+  font-size: clamp(12px, 3vw, 14px);
+  letter-spacing: 0.2em;
+  padding: 14px 28px;
+  min-height: 50px;
+  margin: 6px auto 24px;
+  box-shadow: 0 8px 18px -6px rgba(14, 31, 61, 0.5);
+}
+#guestsAdd.guests-add .plus { font-size: 22px; color: #FFFFFF; }
+#guestsAdd.guests-add,
+#guestsAdd.guests-add span { font-weight: 700 !important; }
+#rsvp .btn.solid { font-weight: 700 !important; }
+/* Botón "Enviar confirmación" — dorado con animación heartbeat */
+#rsvp .btn.solid {
+  background: var(--gold, #B68B4C) !important;
+  border-color: var(--gold, #B68B4C) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 20px -6px rgba(182, 139, 76, 0.6);
+  animation: btnHeartbeat 2.4s ease-in-out infinite;
+}
+#rsvp .btn.solid:hover {
+  background: var(--gold-deep, #8B6731) !important;
+  border-color: var(--gold-deep, #8B6731) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #rsvp .btn.solid { animation: none; }
+}
+/* "¿Quién más te acompaña?" — 2× más grande, en azul */
+#rsvp .field label[data-t="rsvp.guests"] {
+  font-size: clamp(28px, 7vw, 40px) !important;
+  letter-spacing: 0.02em !important;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink, #0E1F3D) !important;
+}
+
+/* Nota elegante (solo mayores de edad) */
+.rsvp-form .field-note {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(17px, 4.1vw, 21px);
+  line-height: 1.55;
+  color: var(--gold-deep, #8B6731);
+  max-width: 380px;
+  margin: 2px auto 16px;
+  text-align: center;
+}
+.rsvp-form .field-note .age-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  min-width: 48px;
+  height: 44px;
+  padding: 0 14px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  background: var(--ink, #0E1F3D);
+  color: #FFFFFF;
+  font-family: "Cormorant SC", serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--gold, #B68B4C);
+}
+#guestsAdd.guests-add:hover {
+  background: var(--ink-2, #182B4E);
+  border-color: var(--ink-2, #182B4E);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* Sí / No — botones en dorado, con heartbeat */
+#rsvp .pill-radio {
+  animation: btnHeartbeat 2.4s ease-in-out infinite;
+  border-color: var(--gold, #B68B4C) !important;
+}
+#rsvp .pill-radio label.on {
+  background: var(--gold, #B68B4C) !important;
+  color: #FFFFFF !important;
+}
+#rsvp .pill-radio label.on span { color: #FFFFFF !important; }
+/* Espacio extra después de "¿Asistirás?" */
+#rsvp .field:has(.pill-radio) { margin-bottom: clamp(28px, 6vw, 48px); }
+/* Despliegue suave al elegir "Sí" */
+#rsvp-if-yes { animation: rsvpExpand .55s cubic-bezier(.2,.7,.2,1); }
+@keyframes rsvpExpand {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #rsvp-if-yes { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #rsvp .pill-radio { animation: none; }
+}
+
+/* ============ Footer credit (SATORI) ============ */
+.foot-credit {
+  display: inline-block;
+  margin-top: 26px;
+  font-family: "Cormorant SC", serif;
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255,255,255,0.6);
+  transition: color .3s ease;
+}
+.foot-credit span {
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--gold-soft, #C9A668);
+}
+.foot-credit:hover { color: rgba(255,255,255,0.85); }
+.foot-credit:hover span { color: var(--gold, #B68B4C); }
+.foot-credit .dot { font-weight: 700; color: #FFFFFF; }
+
+/* Brillo de oro que barre "SATORI" letra por letra */
+.foot-credit span {
+  background-image: linear-gradient(
+    100deg,
+    #7A5523 0%, #A9823C 28%, #E9CF8C 44%,
+    #FFF6DA 50%, #E9CF8C 56%, #A9823C 72%, #7A5523 100%
+  );
+  background-size: 260% 100%;
+  background-position: 260% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: goldShine 3.4s linear infinite;
+}
+.foot-credit:hover span {
+  color: transparent;   /* keep the shimmer on hover */
+}
+@keyframes goldShine {
+  0%   { background-position: 260% 0; }
+  100% { background-position: -60% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .foot-credit span {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--gold-soft, #C9A668);
+    color: var(--gold-soft, #C9A668);
+  }
+}
+
+/* ============ Footer monogram (letras C&V) ============ */
+.foot-monogram {
+  font-family: var(--f-romance, "Tangerine", cursive);
+  font-size: clamp(72px, 18vw, 128px);
+  line-height: 1;
+  color: #FFFFFF;
+  margin: 0 auto 26px;
+  display: block;
+  text-align: center;
+}
+.foot-monogram .amp {
+  font-style: italic;
+  margin: 0 0.04em;
+  color: var(--gold-soft, #C9A668);
+}
+
+/* =========================================================
+   MOBILE FIXES — evitar que títulos / kickers se corten
+   ========================================================= */
+@media (max-width: 600px) {
+  /* Los "eyebrow" (kickers en mayúsculas) son de una sola línea con
+     letras muy espaciadas: a tamaños grandes se desbordan y se cortan.
+     Los hacemos envolver y reducimos un poco el espaciado en pantallas chicas. */
+  .eyebrow,
+  .eyebrow-lg,
+  .venue-hero .eyebrow,
+  .section.bg-cream .eyebrow,
+  .section.bg-cream .eyebrow.eyebrow-lg,
+  .section.bg-pearl .eyebrow,
+  .itin-wrap .eyebrow,
+  .dc .eyebrow,
+  .gifts .eyebrow,
+  .rsvp .eyebrow {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    text-align: center !important;
+    max-width: 100% !important;
+    letter-spacing: 0.16em !important;
+    line-height: 1.08 !important;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+  /* Tamaños de kicker acotados para que quepan a 360–430px de ancho */
+  .venue-hero .eyebrow { font-size: clamp(30px, 9vw, 46px) !important; }
+  .section.bg-cream .eyebrow.eyebrow-lg { font-size: clamp(30px, 9vw, 48px) !important; }
+  .section.bg-cream .eyebrow,
+  .section.bg-pearl .eyebrow,
+  .itin-wrap .eyebrow,
+  .dc .eyebrow,
+  .gifts .eyebrow,
+  .rsvp .eyebrow { font-size: clamp(28px, 8.4vw, 44px) !important; }
+
+  /* Las líneas decorativas del kicker no deben forzar el ancho */
+  .eyebrow::before, .eyebrow::after { width: 22px !important; flex: 0 0 22px; }
+
+  /* Títulos display: dar aire vertical para que no se recorten ascendentes/descendentes
+     de la tipografía script, y permitir que envuelvan correctamente. */
+  .display, h2.display, h3.display,
+  .venue-hero .place,
+  .itin-wrap .display.h-2,
+  h3.display.h-3,
+  [data-screen-label="04 Padres y Padrinos"] h3.display.h-3 {
+    line-height: 1.06 !important;
+    padding-bottom: 0.08em;
+    overflow: visible !important;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+  /* Acotar los títulos más grandes para que entren en pantalla */
+  .itin-wrap .display.h-2 { font-size: clamp(46px, 13vw, 72px) !important; }
+  h3.display.h-3,
+  [data-screen-label="04 Padres y Padrinos"] h3.display.h-3 {
+    font-size: clamp(38px, 11vw, 56px) !important;
+  }
+
+  /* La franja de talavera un poco más baja en móvil */
+  .tal-divider { height: 3cm; }
+}
+
+/* ============ Pista: "Toca las fotos" en la galería ============ */
+.gallery-hint {
+  margin: 14px auto 0;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(16px, 2.6vw, 20px);
+  letter-spacing: 0.01em;
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.gallery-hint::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 11.5V5.5a1.5 1.5 0 0 1 3 0V11h.5l.5-3.2a1.4 1.4 0 0 1 2.77.43L15.5 11h.6l.7-2.1a1.35 1.35 0 0 1 2.62.6l-.32 2.1.4-.05a1.3 1.3 0 0 1 1.45 1.5l-.7 4.3A4 4 0 0 1 16.8 21h-3.3a4 4 0 0 1-2.9-1.25l-3.4-3.6a1.5 1.5 0 0 1 2-2.2L9 14.2z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 11.5V5.5a1.5 1.5 0 0 1 3 0V11h.5l.5-3.2a1.4 1.4 0 0 1 2.77.43L15.5 11h.6l.7-2.1a1.35 1.35 0 0 1 2.62.6l-.32 2.1.4-.05a1.3 1.3 0 0 1 1.45 1.5l-.7 4.3A4 4 0 0 1 16.8 21h-3.3a4 4 0 0 1-2.9-1.25l-3.4-3.6a1.5 1.5 0 0 1 2-2.2L9 14.2z'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: hintTap 2.2s ease-in-out infinite;
+}
+@keyframes hintTap {
+  0%, 100% { transform: translateY(0) scale(1); }
+  12%      { transform: translateY(2px) scale(0.9); }
+  24%      { transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-hint::before { animation: none; }
+}
+
+/* ============ Fondo completo de talavera (sección Momentos) ============ */
+.section.tal-bg-full { position: relative; }
+.section.tal-bg-full::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("fotos/talavera/talavera-tile-2d.png");
+  background-repeat: repeat;
+  background-size: 240px auto;
+  background-position: center;
+  opacity: 0.14;
+  pointer-events: none;
+  z-index: 0;
+}
+.section.tal-bg-full > .section-inner { position: relative; z-index: 1; }
+
+/* ============ Nota musical en el prompt del sobre ============ */
+.env-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold, #B68B4C);
+}
+.env-note svg {
+  width: clamp(26px, 5.5vw, 34px);
+  height: clamp(26px, 5.5vw, 34px);
+  fill: currentColor;
+  filter: drop-shadow(0 1px 2px rgba(14,31,61,0.25));
+}
