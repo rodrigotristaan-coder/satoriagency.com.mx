@@ -1,3 +1,19 @@
+> # ⛔ REPO ARCHIVADO — NO ES satoriagency.com.mx
+>
+> **A pesar del nombre de esta carpeta y de este repo, aquí NO vive el sitio
+> `satoriagency.com.mx`.** Este repo quedó con una versión vieja de la landing de
+> HUMAN-CORE y no despliega a ningún lado.
+>
+> | Si buscas… | Está en… |
+> |---|---|
+> | El panel interno **satoriagency.com.mx** | `~/satori-hub` → repo privado `satori-hub` (deploy: `vercel --prod --yes`) |
+> | La landing de **HUMAN-CORE / laurahumancore.com** | `~/laurahumancore.com` → repo `laurahumancore.com` |
+>
+> Contexto: `02 Satori — Interno/Docs y contexto/satoriagency.com.mx — CONTEXTO.md`
+> en OneDrive. Archivado el 2026-07-31. Todo lo de abajo es histórico.
+
+---
+
 # HUMAN-CORE System — Landing (contexto para Claude Code)
 
 Landing **estática** (HTML + CSS inline, sin build, sin dependencias) de
